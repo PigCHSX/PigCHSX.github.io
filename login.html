@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>登录</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+body{background:linear-gradient(135deg,#f8f9fc,#e2eafc);display:grid;place-items:center;height:100vh;padding:20px}
+.logo{position:fixed;top:20px;left:20px}
+.logo img{height:50px;border-radius:8px}
+.box{background:#fff;width:100%;max-width:400px;padding:36px;border-radius:20px;box-shadow:0 10px 30px #00000010}
+h2{text-align:center;margin-bottom:24px}
+input{width:100%;padding:14px;margin-bottom:16px;border:1px solid #ddd;border-radius:12px}
+button{width:100%;padding:14px;background:#007bff;color:white;border:none;border-radius:12px;font-weight:600}
+.link{text-align:center;margin-top:12px;font-size:14px;color:#666}
+a{color:#007bff;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="logo"><img src="logo.png"></div>
+<div class="box">
+<h2>登录</h2>
+<input id="u" placeholder="账号">
+<input id="p" type="password" placeholder="密码">
+<button onclick="login()">登录</button>
+<div class="link"><a href="find.html">找回密码</a></div>
+<div class="link"><a href="register.html">注册账号</a></div>
+</div>
+<script>
+function login(){
+let u=document.getElementById('u').value,pw=document.getElementById('p').value
+let user=JSON.parse(localStorage.getItem('user_'+u))
+if(!user||user.pw!==pw)return alert('账号或密码错误')
+localStorage.user=u;location.href='submit.html'
+}
+</script>
+</body>
+</html>

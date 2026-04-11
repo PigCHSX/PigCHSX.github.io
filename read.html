@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>阅读 - 水二杂记</title>
+<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-title" content="MOSE" />
+<link rel="manifest" href="/site.webmanifest" />
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+body{background:#f8f9fc}
+.logo-fixed{position:fixed;top:16px;left:20px;z-index:999}
+.logo-fixed img{height:50px;border-radius:8px}
+.nav{background:#fff;padding:22px 0;text-align:center;box-shadow:0 2px 10px #00000007;position:sticky;top:0}
+.nav a{margin:0 14px;font-size:16px;color:#222;text-decoration:none;padding:8px 10px}
+.nav a.active{color:#007bff;font-weight:600}
+.wrap{max-width:900px;margin:40px auto;padding:0 20px}
+.menu{background:#fff;border-radius:16px;padding:24px;margin-bottom:20px}
+.menu h3{margin-bottom:12px;color:#007bff}
+.menu a{display:block;margin:6px 0;color:#333;text-decoration:none;cursor:pointer}
+.img-box{background:#fff;border-radius:16px;padding:20px;text-align:center}
+.img-box img{max-width:100%;border-radius:12px}
+.page{display:flex;justify-content:center;gap:12px;margin:20px 0;flex-wrap:wrap;align-items:center}
+.page a{background:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;color:#333;border:1px solid #eee}
+.page-input{padding:10px 12px;border:1px solid #eee;border-radius:10px;width:80px;text-align:center;font-size:15px}
+.page-btn{background:#007bff;color:#000 !important;padding:10px 12px;border:none;cursor:pointer}
+.footer{background:#fff;border-top:1px solid #eee;padding:40px 20px;margin-top:60px}
+.footer-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
+.qrs{display:flex;gap:16px}
+.qrs img{width:100px;height:100px;border-radius:8px}
+</style>
+</head>
+<body>
+
+<div class="logo-fixed"><img src="logo.png" alt="LOGO"></div>
+
+<div class="nav">
+<a href="main.html">首页</a>
+<a href="read.html" class="active">阅读</a>
+<a href="login.html">投稿</a>
+<a href="message.html">留言</a>
+</div>
+
+<div class="wrap">
+<div class="menu">
+<h3>📖 阅读目录</h3>
+<a onclick="changeBook(1)">第一卷</a>
+<a onclick="changeBook(2)">第二卷</a>
+<a onclick="changeBook(3)">第三卷</a>
+<a onclick="changeBook(4)">第四卷</a>
+<a onclick="changeBook(5)">第五卷</a>
+<a onclick="changeBook(6)">半卷流年</a>
+</div>
+<div class="img-box">
+<img src="images/1-1.jpg" id="pic">
+</div>
+<div class="page">
+<a onclick="go(-1)">上一页</a>
+<a onclick="goPage(1)">1</a>
+<a onclick="goPage(2)">2</a>
+<a onclick="goPage(3)">3</a>
+<input type="number" class="page-input" id="pageInput" placeholder="页码">
+<a onclick="jumpToPage()" class="page-btn">跳转</a>
+<a onclick="go(1)">下一页</a>
+</div>
+</div>
+
+<div class="footer">
+<div class="footer-inner">
+<div>
+<p>读者联盟QQ频道：MOSE20230927</p>
+<p>投稿人联盟QQ群：1054707527</p>
+<p>官微：gh_1ece4d40dedf</p>
+<p>邮箱：pigli@mose.cc.cd</p>
+</div>
+<div class="qrs">
+<img src="qrcode1.png" alt="公众号">
+<img src="qrcode2.png" alt="企业微信">
+<img src="qrcode3.png" alt="QQ频道">
+</div>
+</div>
+</div>
+
+<script>
+let book = 1; // 当前卷
+let page = 1; // 当前页
+
+// 切换卷册
+function changeBook(b) {
+    book = b;
+    page = 1;
+    updateImg();
+}
+
+// 更新图片
+function updateImg() {
+    document.getElementById("pic").src = "images/" + book + "-" + page + ".jpg";
+    document.getElementById("pageInput").value = page;
+}
+
+// 上下一页
+function go(t) {
+    page = page + t;
+    if (page < 1) page = 1;
+    updateImg();
+}
+
+// 点击数字页码
+function goPage(num) {
+    page = num;
+    updateImg();
+}
+
+// 输入跳转
+function jumpToPage() {
+    let input = document.getElementById("pageInput");
+    let p = parseInt(input.value);
+    if (!isNaN(p) && p >= 1) {
+        page = p;
+        updateImg();
+    }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>我要投稿</title>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+body{background:linear-gradient(135deg,#f8f9fc,#e2eafc);padding:100px 20px;max-width:700px;margin:0 auto}
+.logo{position:fixed;top:20px;left:20px}
+.logo img{height:50px;border-radius:8px}
+.user{position:fixed;top:20px;right:20px;background:#fff;padding:10px 14px;border-radius:12px}
+.box{background:#fff;padding:36px;border-radius:20px;box-shadow:0 10px 30px #00000010}
+h2{margin-bottom:24px;text-align:center}
+input,textarea{width:100%;padding:14px;margin-bottom:16px;border:1px solid #ddd;border-radius:12px}
+textarea{min-height:200px}
+button{width:100%;padding:14px;background:#007bff;color:white;border:none;border-radius:12px;font-weight:600}
+.link{text-align:center;margin-top:20px}
+a{color:#007bff}
+</style>
+</head>
+<body>
+<div class="logo"><img src="logo.png"></div>
+<div class="user" id="user"></div>
+<div class="box">
+<h2>我要投稿</h2>
+<input id="t" placeholder="标题">
+<textarea id="c" placeholder="内容"></textarea>
+<input id="pic" placeholder="图片链接（可选）">
+<button onclick="send()">提交投稿</button>
+<div class="link"><a href="history.html">查看我的投稿</a></div>
+</div>
+<script>
+let user=localStorage.user
+if(!user){alert('请登录');location.href='login.html'}
+document.getElementById('user').innerText='用户：'+user
+emailjs.init("uahvFOAFb1xRmqK6F")
+function send(){
+emailjs.send("service_o9y08vb","template_tp09pwa",{
+user:user,title:document.getElementById('t').value,
+content:document.getElementById('c').value,
+image:document.getElementById('pic').value||'无',
+time:new Date().toLocaleString()
+}).then(()=>{
+let list=JSON.parse(localStorage.getItem('list_'+user)||'[]')
+list.push({title:document.getElementById('t').value,content:document.getElementById('c').value,time:new Date().toLocaleString(),status:'未读'})
+localStorage.setItem('list_'+user,JSON.stringify(list))
+alert('投稿成功！已发送至管理员邮箱')
+})
+}
+</script>
+</body>
+</html>
