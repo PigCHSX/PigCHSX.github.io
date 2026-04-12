@@ -84,6 +84,7 @@ body{background:#f8f9fc}
 <script>
 let book = 1; // 当前卷
 let page = 1; // 当前页
+const picElement = document.getElementById("pic");
 
 // 切换卷册
 function changeBook(b) {
@@ -92,16 +93,42 @@ function changeBook(b) {
     updateImg();
 }
 
-// 更新图片
+// 更新图片（增加容错+缓存清理）
 function updateImg() {
-    document.getElementById("pic").src = "images/" + book + "-" + page + ".jpg";
+    // 1. 构建图片路径
+    const imgSrc = `images/${book}-${page}.jpg`;
+    // 2. 加时间戳避免缓存
+    const imgSrcWithTimestamp = `${imgSrc}?t=${new Date().getTime()}`;
+    
+    // 3. 先显示加载中（优化体验）
+    picElement.src = "loading.png"; // 可自行添加加载中图片
+    picElement.alt = `第${book}卷第${page}页`;
+
+    // 4. 预加载图片，处理加载失败
+    const tempImg = new Image();
+    tempImg.onload = function() {
+        // 加载成功，替换真实图片
+        picElement.src = imgSrcWithTimestamp;
+    };
+    tempImg.onerror = function() {
+        // 加载失败（文件未上传），显示占位图+提示
+        picElement.src = "placeholder.png"; // 可自行添加占位图
+        alert(`⚠️ 第${book}卷第${page}页的图片尚未上传，请稍后再试！`);
+    };
+    tempImg.src = imgSrcWithTimestamp;
+
+    // 更新页码输入框
     document.getElementById("pageInput").value = page;
 }
 
-// 上下一页
+// 上下一页（增加页数边界判断）
 function go(t) {
-    page = page + t;
-    if (page < 1) page = 1;
+    const newPage = page + t;
+    if (newPage < 1) {
+        alert("已经是第一页了！");
+        return;
+    }
+    page = newPage;
     updateImg();
 }
 
@@ -111,14 +138,17 @@ function goPage(num) {
     updateImg();
 }
 
-// 输入跳转
+// 输入跳转（增加合法性校验）
 function jumpToPage() {
     let input = document.getElementById("pageInput");
     let p = parseInt(input.value);
-    if (!isNaN(p) && p >= 1) {
-        page = p;
-        updateImg();
+    if (isNaN(p) || p < 1) {
+        alert("请输入有效的页码（正整数）！");
+        input.value = page; // 还原当前页码
+        return;
     }
+    page = p;
+    updateImg();
 }
 </script>
 </body>
