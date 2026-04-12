@@ -29,7 +29,7 @@ document.getElementById('user').innerText='用户：'+user
 let list=JSON.parse(localStorage.getItem('list_'+user)||'[]')
 let html=''
 list.reverse().forEach(i=>{
-html+=`<div class="item"><div class="title">${i.title}</div><div>${i.content.slice(0,60)}...</div><div class="info">${i.time}｜${i.status}</div></div>`
+html+=`<div class="item"><div class="title">${i.title}</div><div>${i.content.slice(0,60)}...</div><div class="info">${i.time}｜投稿成功</div></div>`
 })
 document.getElementById('list').innerHTML=html||'<div style="text-align:center;background:#fff;padding:20px;border-radius:16px">暂无投稿</div>'
 </script>
