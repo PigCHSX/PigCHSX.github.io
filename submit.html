@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>我要投稿 - 水二杂记｜MOSE</title>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.4/dist/umd/supabase.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+body{
+    background:linear-gradient(135deg,#f8f9fc,#e2eafc);
+    padding:40px 20px 280px;
+    max-width:700px;
+    margin:0 auto;
+}
+.box{
+    background:#fff;
+    padding:36px;
+    border-radius:20px;
+    box-shadow:0 10px 30px #00000010;
+}
+h2{margin-bottom:24px;text-align:center;color:#222}
+input,textarea{
+    width:100%;
+    padding:14px;
+    margin-bottom:16px;
+    border:1px solid #ddd;
+    border-radius:12px;
+    font-size:15px;
+}
+textarea{min-height:200px;resize:vertical}
+.tips-btn{
+    padding:8px 16px;
+    background:#f5f5f5;
+    color:#007bff;
+    border:1px solid #ddd;
+    border-radius:8px;
+    font-size:14px;
+    cursor:pointer;
+    margin-bottom:10px;
+}
+.tips-modal{
+    position:fixed;
+    top:0;left:0;right:0;bottom:0;
+    background:rgba(0,0,0,0.5);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:999;
+}
+.tips-content{
+    background:#fff;
+    padding:20px;
+    border-radius:12px;
+    max-width:500px;
+    width:90%;
+}
+.tips-close{
+    margin-top:15px;
+    padding:8px 16px;
+    background:#007bff;
+    color:#fff;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+button{
+    width:100%;
+    padding:14px;
+    background:#007bff;
+    color:white;
+    border:none;
+    border-radius:12px;
+    font-weight:600;
+    font-size:16px;
+    cursor:pointer;
+}
+.logout-btn{
+    background:#dc3545;
+    margin-top:10px;
+}
+.logout-btn:hover{
+    background:#c82333;
+}
+.link{text-align:center;margin-top:20px}
+a{color:#007bff;text-decoration:none}
+.footer{
+    position:fixed;bottom:0;left:0;right:0;
+    background:#fff;border-top:1px solid #eee;
+    padding:20px;text-align:center
+}
+.footer p{font-size:14px;margin:4px 0;color:#333}
+.qrcodes{display:flex;gap:10px;justify-content:center;margin-top:10px}
+.qrcodes img{width:70px;height:70px;border-radius:6px}
+.user-info{
+    text-align:right;
+    margin-bottom:16px;
+    color:#666;
+    font-size:14px;
+}
+</style>
+</head>
+<body>
+
+<div class="box">
+    <div class="user-info" id="userInfo"></div>
+<h2>我要投稿</h2>
+<input id="t" placeholder="请输入投稿标题" required>
+<textarea id="c" placeholder="请输入投稿内容（支持文字描述）" required></textarea>
+<button class="tips-btn" onclick="document.getElementById('tipsModal').style.display='flex'">查看图片链接上传要求</button>
+<input id="picUrl" placeholder="图片链接（请先上传至图床，粘贴直链）">
+
+<div class="tips-modal" id="tipsModal">
+    <div class="tips-content">
+        <h3>图片链接上传要求</h3>
+        <p>1. 图片需为扫描件（JPG/PNG格式，清晰无水印）；</p>
+        <p>2. 上传至图床获取直链（推荐免费图床：</p>
+        <p>👉 路过图床：https://imgchr.com/</p>
+        <p>👉 SM.MS：https://sm.ms/</p>
+        <p>3. 复制图床生成的「直链/URL」粘贴到投稿框即可；</p>
+        <p>这已经是作者最大的努力了，如果嫌麻烦的话可以纯文字或用邮件直接把稿子发到作者邮箱哦</p>
+        <button class="tips-close" onclick="document.getElementById('tipsModal').style.display='none'">返回</button>
+    </div>
+</div>
+
+<button onclick="send()">提交投稿</button>
+<button class="logout-btn" onclick="doLogout()">退出登录</button>
+<div class="link"><a href="history.html">查看我的投稿</a></div>
+<div class="link"><a href="main.html">返回首页</a></div>
+</div>
+
+<div class="footer">
+<p>读者联盟QQ频道：MOSE20230927</p>
+<p>投稿人联盟QQ群：1054707527</p>
+<p>官微：gh_1ece4d40dedf</p>
+<p>邮箱：pigli@mose.cc.cd</p>
+<div class="qrcodes">
+<img src="qrcode1.png"><img src="qrcode2.png"><img src="qrcode3.png">
+</div>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://urecpftjcruwfcdwrcyj.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_yLWqUQuZbmcsUwE5hwTv2A_wGe1mU0_';
+window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+async function checkLoginStatus() {
+    const { data: { session } } = await window.supabaseClient.auth.getSession();
+    if (!session) {
+        alert('请先登录！');
+        location.href = 'login.html';
+        return;
+    }
+    const { data: { user } } = await window.supabaseClient.auth.getUser();
+    // ✅ 核心修改：显示用户名
+    const username = user.user_metadata.username || user.email.split('@')[0];
+    localStorage.setItem('sb_username', username);
+    document.getElementById('userInfo').innerText = `当前登录：${username}`;
+}
+
+async function doLogout() {
+    if (!confirm('确定要退出登录吗？')) return;
+    await window.supabaseClient.auth.signOut();
+    localStorage.removeItem('sb_username');
+    alert('已退出登录！');
+    location.href = 'login.html';
+}
+
+emailjs.init("uahvFOAFb1xRmqK6F")
+function send() {
+    const title = document.getElementById('t').value.trim()
+    const content = document.getElementById('c').value.trim()
+    const picUrl = document.getElementById('picUrl').value.trim()
+
+    if (!title || !content) {
+        alert('标题和内容不能为空！')
+        return
+    }
+
+    const templateParams = {
+        user: localStorage.getItem('sb_username'),
+        title: title,
+        content: content,
+        picUrl: picUrl || '无图片链接',
+        time: new Date().toLocaleString()
+    }
+
+    emailjs.send("service_o9y08vb", "template_tp09pwa", templateParams)
+    .then((response) => {
+        let list=JSON.parse(localStorage.getItem('list_'+localStorage.getItem('sb_username'))||'[]')
+        list.push({title,content,picUrl,time:new Date().toLocaleString(),status:'未读'})
+        localStorage.setItem('list_'+localStorage.getItem('sb_username'),JSON.stringify(list))
+        alert('✅ 投稿成功！')
+        document.getElementById('t').value=''
+        document.getElementById('c').value=''
+        document.getElementById('picUrl').value=''
+    }, (error) => {
+        alert('❌ 投稿失败：'+error.text)
+    })
+}
+
+window.onload = checkLoginStatus;
+</script>
+</body>
+</html>
