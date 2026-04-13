@@ -23,8 +23,13 @@ a{color:#007bff}
 <div id="list"></div>
 <div class="back"><a href="submit.html">返回投稿</a></div>
 <script>
-let user=localStorage.user
-if(!user){alert('请登录');location.href='login.html'}
+let user = localStorage.getItem('sb_username');
+if (!user) {
+  alert('请登录');
+  location.href = 'login.html';
+}
+document.getElementById('user').innerText = '用户：' + user;
+// 后面的 list_${user} 不变
 document.getElementById('user').innerText='用户：'+user
 let list=JSON.parse(localStorage.getItem('list_'+user)||'[]')
 let html=''
