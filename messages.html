@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>留言板 - 水二杂记｜MOSE</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.4/dist/umd/supabase.min.js"></script>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+        body{background:#f8f9fc;display:flex;flex-direction:column;min-height:100vh;}
+        .nav{background:#fff;padding:18px 20px;border-radius:16px;box-shadow:0 4px 16px #00000006;display:flex;align-items:center;justify-content:space-between;margin:20px auto;max-width:900px;width:90%;}
+        .nav-links a{margin:0 12px;font-size:16px;color:#222;text-decoration:none;padding:6px 8px}
+        .nav-links a.active{color:#007bff;font-weight:600}
+        .logout-btn{background:#dc3545;color:white;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;}
+        .container{max-width:900px;margin:0 auto;padding:20px;width:90%;}
+        .message-form{background:#fff;border-radius:16px;padding:24px;margin-bottom:30px;box-shadow:0 4px 16px #00000006;}
+        .message-form textarea{width:100%;padding:14px;border:1px solid #ddd;border-radius:12px;font-size:15px;margin-bottom:10px;min-height:100px;}
+        .message-form input{width:100%;padding:12px;border:1px solid #ddd;border-radius:12px;margin-bottom:10px;}
+        .message-form button{background:#007bff;color:white;border:none;padding:12px 24px;border-radius:12px;font-weight:600;cursor:pointer;}
+        .message-list{background:#fff;border-radius:16px;padding:24px;box-shadow:0 4px 16px #00000006;}
+        .message-item{border-bottom:1px solid #eee;padding:20px 0;}
+        .message-item:last-child{border-bottom:none;}
+        .message-header{display:flex;align-items:center;margin-bottom:8px;}
+        .message-user{font-weight:600;color:#007bff;margin-right:12px;}
+        .message-time{font-size:12px;color:#999;}
+        .message-content{margin:12px 0;line-height:1.6;}
+        .message-pic img{max-width:100%;max-height:300px;border-radius:8px;margin-top:10px;}
+        .loading{text-align:center;padding:20px;color:#666;}
+        .footer{margin-top:auto;text-align:center;padding:20px;font-size:12px;color:#666;}
+    </style>
+</head>
+<body>
+
+<div class="nav">
+    <div class="nav-links">
+        <a href="main.html">首页</a>
+        <a href="read.html">阅读</a>
+        <a href="login.html">投稿</a>
+        <a href="messages.html" class="active">留言</a>
+    </div>
+    <button class="logout-btn" onclick="doLogout()">退出登录</button>
+</div>
+
+<div class="container">
+    <div class="message-form">
+        <h3 style="margin-bottom:16px;">💬 发表留言</h3>
+        <textarea id="messageContent" placeholder="写下你想说的话..."></textarea>
+        <input id="messagePicUrl" placeholder="图片链接（可选，请先上传至图床）">
+        <button onclick="postMessage()">发布留言</button>
+        <p style="font-size:12px;color:#888;margin-top:8px;">支持图片直链，推荐图床：<a href="https://imgchr.com/" target="_blank">路过图床</a>、<a href="https://sm.ms/" target="_blank">SM.MS</a></p>
+    </div>
+
+    <div class="message-list">
+        <h3 style="margin-bottom:20px;">📝 留言列表</h3>
+        <div id="messageContainer">
+            <div class="loading">加载中...</div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    读者联盟QQ频道：MOSE20230927 | 投稿人联盟QQ群：1054707527<br>
+    官微：gh_1ece4d40dedf | 邮箱：pigli@mose.cc.cd
+</div>
+
+<script>
+const SUPABASE_URL = 'https://urecpftjcruwfcdwrcyj.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_yLWqUQuZbmcsUwE5hwTv2A_wGe1mU0_';
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+let currentUser = null;
+
+// 检查登录状态
+async function checkAuth() {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+        alert('请先登录后再访问留言板！');
+        location.href = 'login.html';
+        return false;
+    }
+    const { data: { user } } = await supabase.auth.getUser();
+    currentUser = user;
+    return true;
+}
+
+// 退出登录
+async function doLogout() {
+    if (!confirm('确定要退出登录吗？')) return;
+    await supabase.auth.signOut();
+    localStorage.removeItem('sb_username');
+    alert('已退出登录！');
+    location.href = 'login.html';
+}
+
+// 发布留言
+async function postMessage() {
+    if (!currentUser) { alert('请先登录'); return; }
+    const content = document.getElementById('messageContent').value.trim();
+    const picUrl = document.getElementById('messagePicUrl').value.trim();
+    if (!content) { alert('留言内容不能为空'); return; }
+
+    const username = currentUser.user_metadata.username || currentUser.email.split('@')[0];
+    const userId = currentUser.id;
+
+    const insertData = {
+        username: username,
+        content: content,
+        pic_url: picUrl || null
+    };
+    // 如果表有 user_id 字段则加上
+    if (await hasColumn('messages', 'user_id')) {
+        insertData.user_id = userId;
+    }
+
+    const { error } = await supabase.from('messages').insert([insertData]);
+    if (error) {
+        alert('发布失败：' + error.message);
+    } else {
+        document.getElementById('messageContent').value = '';
+        document.getElementById('messagePicUrl').value = '';
+        loadMessages();
+    }
+}
+
+// 检测表是否有某字段
+async function hasColumn(table, column) {
+    try {
+        const { data, error } = await supabase.from(table).select(column).limit(1);
+        return !error;
+    } catch { return false; }
+}
+
+// 加载留言列表
+async function loadMessages() {
+    const container = document.getElementById('messageContainer');
+    container.innerHTML = '<div class="loading">加载中...</div>';
+    
+    let query = supabase.from('messages').select('*').order('created_at', { ascending: false });
+    const { data, error } = await query;
+    if (error) {
+        container.innerHTML = '<div class="loading">加载失败：' + error.message + '</div>';
+        return;
+    }
+    if (!data || data.length === 0) {
+        container.innerHTML = '<div class="loading">暂无留言，快来抢沙发吧！</div>';
+        return;
+    }
+    
+    let html = '';
+    data.forEach(msg => {
+        const time = msg.created_at ? new Date(msg.created_at).toLocaleString() : '';
+        html += `<div class="message-item">
+            <div class="message-header">
+                <span class="message-user">${escapeHtml(msg.username) || '匿名'}</span>
+                <span class="message-time">${time}</span>
+            </div>
+            <div class="message-content">${escapeHtml(msg.content).replace(/\n/g, '<br>')}</div>`;
+        if (msg.pic_url) {
+            html += `<div class="message-pic"><img src="${escapeHtml(msg.pic_url)}" alt="留言图片" loading="lazy"></div>`;
+        }
+        html += `</div>`;
+    });
+    container.innerHTML = html;
+}
+
+// 简单的转义防XSS
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// 初始化
+window.onload = async () => {
+    const ok = await checkAuth();
+    if (ok) loadMessages();
+};
+</script>
+</body>
+</html>
