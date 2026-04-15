@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>我要投稿 - 水二杂记｜MOSE</title>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/umd/email.min.js"></script>
+<!-- 更换为更稳定的 EmailJS CDN -->
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.4/dist/umd/supabase.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
@@ -126,10 +127,20 @@ const SUPABASE_URL = 'https://urecpftjcruwfcdwrcyj.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_yLWqUQuZbmcsUwE5hwTv2A_wGe1mU0_';
 window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+let currentUser = null;
+
+// 安全初始化 EmailJS
+if (typeof emailjs !== 'undefined') {
+    emailjs.init("uahvFOAFb1xRmqK6F");
+} else {
+    console.error('EmailJS 库加载失败，请刷新重试');
+}
+
 async function checkLoginStatus() {
     const { data: { session } } = await window.supabaseClient.auth.getSession();
     if (!session) { alert('请先登录！'); location.href = 'login.html'; return; }
     const { data: { user } } = await window.supabaseClient.auth.getUser();
+    currentUser = user;
     const username = user.user_metadata.username || user.email.split('@')[0];
     localStorage.setItem('sb_username', username);
     document.getElementById('userInfo').innerText = `当前登录：${username}`;
@@ -143,31 +154,61 @@ async function doLogout() {
     location.href = 'login.html';
 }
 
-emailjs.init("uahvFOAFb1xRmqK6F");
-function send() {
+async function send() {
     const title = document.getElementById('t').value.trim();
     const content = document.getElementById('c').value.trim();
     const picUrl = document.getElementById('picUrl').value.trim();
     if (!title || !content) { alert('标题和内容不能为空！'); return; }
+
+    const username = localStorage.getItem('sb_username');
+    const userId = currentUser.id;
+
+    // 1. 先存入 Supabase
+    const { error: dbError } = await window.supabaseClient
+        .from('submissions')
+        .insert([{
+            user_id: userId,
+            username: username,
+            title: title,
+            content: content,
+            pic_url: picUrl || null,
+            status: '未读'
+        }]);
+
+    if (dbError) {
+        alert('❌ 投稿失败（数据库）：' + dbError.message);
+        return;
+    }
+
+    // 2. 再通过 EmailJS 发送邮件通知
+    if (typeof emailjs === 'undefined') {
+        alert('⚠️ 投稿已保存，但邮件服务未加载，请通知管理员');
+        document.getElementById('t').value = '';
+        document.getElementById('c').value = '';
+        document.getElementById('picUrl').value = '';
+        return;
+    }
+
     const templateParams = {
-        user: localStorage.getItem('sb_username'),
-        title, content,
+        user: username,
+        title: title,
+        content: content,
         picUrl: picUrl || '无图片链接',
         time: new Date().toLocaleString()
     };
+
     emailjs.send("service_o9y08vb", "template_tp09pwa", templateParams)
-    .then(() => {
-        let list = JSON.parse(localStorage.getItem('list_'+localStorage.getItem('sb_username'))||'[]');
-        list.push({title,content,picUrl,time:new Date().toLocaleString(),status:'未读'});
-        localStorage.setItem('list_'+localStorage.getItem('sb_username'), JSON.stringify(list));
-        alert('✅ 投稿成功！');
-        document.getElementById('t').value='';
-        document.getElementById('c').value='';
-        document.getElementById('picUrl').value='';
-    }, (error) => {
-        alert('❌ 投稿失败：'+error.text);
-    });
+        .then(() => {
+            alert('✅ 投稿成功！邮件已发送至管理员。');
+            document.getElementById('t').value = '';
+            document.getElementById('c').value = '';
+            document.getElementById('picUrl').value = '';
+        })
+        .catch((error) => {
+            alert('⚠️ 投稿已保存，但邮件通知失败：' + error.text);
+        });
 }
+
 window.onload = checkLoginStatus;
 </script>
 </body>
