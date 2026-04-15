@@ -6,71 +6,148 @@
     <title>留言板 - 水二杂记｜MOSE</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.4/dist/umd/supabase.min.js"></script>
     <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
-body{background:linear-gradient(135deg,#f8f9fc,#e2eafc);padding:40px 20px 280px;max-width:700px;margin:0 auto}
-.nav{background:#fff;padding:18px 20px;border-radius:16px;box-shadow:0 4px 16px #00000006;display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px;}
-.nav-links a{margin:0 12px;font-size:16px;color:#222;text-decoration:none;padding:6px 8px}
-.nav-links a.active{color:#007bff;font-weight:600}
-.logout-btn{
-    background:#dc3545;
-    color:white;
-    border:none;
-    padding:8px 16px !important;
-    border-radius:8px !important;
-    cursor:pointer;
-    font-size:14px !important;
-    width: auto !important;
-    font-weight: normal !important;
-}
-.logout-btn:hover{background:#c82333;}
-.box{background:#fff;padding:36px;border-radius:20px;box-shadow:0 10px 30px #00000010;}
-h2{margin-bottom:24px;text-align:center;color:#222}
-input,textarea{width:100%;padding:14px;margin-bottom:16px;border:1px solid #ddd;border-radius:12px;font-size:15px}
-textarea{min-height:200px;resize:vertical}
-.tips-btn{padding:8px 16px;background:#f5f5f5;color:#007bff;border:1px solid #ddd;border-radius:8px;font-size:14px;cursor:pointer;margin-bottom:10px}
-.tips-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:none;justify-content:center;align-items:center;z-index:999}
-.tips-content{background:#fff;padding:20px;border-radius:12px;max-width:500px;width:90%}
-.tips-close{margin-top:15px;padding:8px 16px;background:#007bff;color:#fff;border:none;border-radius:8px;cursor:pointer}
-button{width:100%;padding:14px;background:#007bff;color:white;border:none;border-radius:12px;font-weight:600;font-size:16px;cursor:pointer}
-.link{text-align:center;margin-top:20px}
-a{color:#007bff;text-decoration:none}
-.footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #eee;padding:20px;text-align:center}
-.footer p{font-size:14px;margin:4px 0;color:#333}
-.qrcodes{display:flex;gap:10px;justify-content:center;margin-top:10px}
-.qrcodes img{width:70px;height:70px;border-radius:6px}
-.user-info{text-align:right;margin-bottom:16px;color:#666;font-size:14px}
+        /* ========== 全局重置 ========== */
+        *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+        body{background:#f8f9fc;display:flex;flex-direction:column;min-height:100vh;}
+        
+        /* ========== 导航栏 ========== */
+        .nav{background:#fff;padding:18px 20px;border-radius:16px;box-shadow:0 4px 16px #00000006;display:flex;align-items:center;justify-content:space-between;margin:20px auto;max-width:900px;width:90%;flex-wrap:wrap;gap:10px;}
+        .nav-links a{margin:0 12px;font-size:16px;color:#222;text-decoration:none;padding:6px 8px}
+        .nav-links a.active{color:#007bff;font-weight:600}
+        .logout-btn{
+            background:#dc3545;
+            color:white;
+            border:none;
+            padding:8px 16px !important;
+            border-radius:20px !important;
+            cursor:pointer;
+            font-size:14px !important;
+            width: auto !important;
+            font-weight:500 !important;
+        }
+        .logout-btn:hover{background:#c82333;}
 
-/* ========== 移动端适配 ========== */
-@media (max-width: 600px) {
-    .nav {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    .nav-links {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 5px;
-    }
-    .nav-links a {
-        margin: 0 6px;
-        font-size: 15px;
-        padding: 4px 6px;
-    }
-    .logout-btn {
-        align-self: center;
-        margin-top: 5px;
-        padding: 6px 14px !important;
-    }
-    body {
-        padding-top: 20px;
-        padding-bottom: 300px;
-    }
-    .box {
-        padding: 24px;
-    }
-}
-</style>
+        /* ========== 主容器 ========== */
+        .container{max-width:900px;margin:0 auto;padding:20px;width:90%;}
+        
+        /* ========== 发表留言卡片 ========== */
+        .message-form{
+            background:#fff;
+            border-radius:16px;
+            padding:24px;
+            margin-bottom:30px;
+            box-shadow:0 4px 16px #00000006;
+        }
+        .message-form textarea{
+            width:100%;
+            padding:14px;
+            border:1px solid #ddd;
+            border-radius:12px;
+            font-size:15px;
+            margin-bottom:10px;
+            min-height:100px;
+        }
+        .message-form input{
+            width:100%;
+            padding:12px;
+            border:1px solid #ddd;
+            border-radius:12px;
+            margin-bottom:10px;
+        }
+        .message-form button{
+            background:#007bff;
+            color:white;
+            border:none;
+            padding:12px 24px;
+            border-radius:12px;
+            font-weight:600;
+            cursor:pointer;
+            width:auto;
+        }
+        .message-form button:hover{background:#0069d9;}
+
+        /* ========== 留言列表卡片 ========== */
+        .message-list{
+            background:#fff;
+            border-radius:16px;
+            padding:24px;
+            box-shadow:0 4px 16px #00000006;
+        }
+        .message-item{
+            border-bottom:1px solid #eee;
+            padding:20px 0;
+        }
+        .message-item:last-child{border-bottom:none;}
+        .message-header{
+            display:flex;
+            align-items:center;
+            margin-bottom:8px;
+        }
+        .message-user{
+            font-weight:600;
+            color:#007bff;
+            margin-right:12px;
+        }
+        .message-time{
+            font-size:12px;
+            color:#999;
+        }
+        .message-content{
+            margin:12px 0;
+            line-height:1.6;
+        }
+        .message-pic img{
+            max-width:100%;
+            max-height:300px;
+            border-radius:8px;
+            margin-top:10px;
+        }
+        .loading{
+            text-align:center;
+            padding:20px;
+            color:#666;
+        }
+
+        /* ========== 底部 ========== */
+        .footer{
+            margin-top:auto;
+            text-align:center;
+            padding:20px;
+            font-size:12px;
+            color:#666;
+        }
+
+        /* ========== 移动端适配 ========== */
+        @media (max-width: 600px) {
+            .nav {
+                flex-direction: column;
+                align-items: stretch;
+                margin:10px auto;
+            }
+            .nav-links {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 5px;
+            }
+            .nav-links a {
+                margin: 0 6px;
+                font-size: 15px;
+                padding: 4px 6px;
+            }
+            .logout-btn {
+                align-self: center;
+                margin-top: 5px;
+                padding: 6px 14px !important;
+            }
+            .container {
+                padding: 10px;
+            }
+            .message-form, .message-list {
+                padding: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -113,7 +190,6 @@ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let currentUser = null;
 
-// 检查登录状态
 async function checkAuth() {
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) {
@@ -126,7 +202,6 @@ async function checkAuth() {
     return true;
 }
 
-// 退出登录
 async function doLogout() {
     if (!confirm('确定要退出登录吗？')) return;
     await supabase.auth.signOut();
@@ -135,7 +210,6 @@ async function doLogout() {
     location.href = 'login.html';
 }
 
-// 发布留言
 async function postMessage() {
     if (!currentUser) { alert('请先登录'); return; }
     const content = document.getElementById('messageContent').value.trim();
@@ -150,7 +224,6 @@ async function postMessage() {
         content: content,
         pic_url: picUrl || null
     };
-    // 如果表有 user_id 字段则加上
     if (await hasColumn('messages', 'user_id')) {
         insertData.user_id = userId;
     }
@@ -165,7 +238,6 @@ async function postMessage() {
     }
 }
 
-// 检测表是否有某字段
 async function hasColumn(table, column) {
     try {
         const { data, error } = await supabase.from(table).select(column).limit(1);
@@ -173,7 +245,6 @@ async function hasColumn(table, column) {
     } catch { return false; }
 }
 
-// 加载留言列表
 async function loadMessages() {
     const container = document.getElementById('messageContainer');
     container.innerHTML = '<div class="loading">加载中...</div>';
@@ -206,14 +277,12 @@ async function loadMessages() {
     container.innerHTML = html;
 }
 
-// 简单的转义防XSS
 function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
 }
 
-// 初始化
 window.onload = async () => {
     const ok = await checkAuth();
     if (ok) loadMessages();
