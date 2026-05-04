@@ -1,0 +1,14 @@
+<view class="container">
+  <view class="box">
+    <text class="title">登录</text>
+    <input class="input" placeholder="邮箱" type="text" bindinput="inputEmail" />
+    <input class="input" placeholder="密码" type="password" bindinput="inputPassword" />
+    <button class="btn" bindtap="doLogin">登录</button>
+    <!-- 原来的 link-group 区域改成这样 -->
+<view class="link-group">
+  <navigator url="/pages/forgot/forgot" class="link">找回密码</navigator>
+  <navigator url="/pages/register/register" class="link">注册账号</navigator>
+  <navigator url="/pages/main/main" class="link">返回首页</navigator>
+</view>
+  </view>
+</view>

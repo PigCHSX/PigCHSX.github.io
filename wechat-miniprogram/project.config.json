@@ -1,0 +1,16 @@
+{
+  "description": "水二杂记｜MOSE 小程序",
+  "packOptions": {
+    "ignore": [],
+    "include": []
+  },
+  "miniprogramRoot": "",
+  "compileType": "miniprogram",
+  "libVersion": "2.32.3",
+  "appid": "wx188ee752ea268cde",
+  "projectname": "水二杂记MOSE",
+  "setting": {
+    "postcss": true,
+    "minified": true
+  }
+}

@@ -1,0 +1,31 @@
+<view class="nav">
+  <view class="nav-links">
+    <navigator url="/pages/main/main">首页</navigator>
+    <navigator url="/pages/read/read">阅读</navigator>
+    <navigator url="/pages/login/login">投稿</navigator>
+    <navigator url="/pages/messages/messages">留言</navigator>
+  </view>
+  <button class="logout-btn" bindtap="doLogout">退出登录</button>
+</view>
+
+<view class="container">
+  <view class="box">
+    <text class="title">📋 我的投稿记录</text>
+    
+    <block wx:if="{{loading}}">
+      <view class="status">加载中...</view>
+    </block>
+    <block wx:elif="{{submissions.length === 0}}">
+      <view class="status">暂无投稿</view>
+    </block>
+    <block wx:else>
+      <view class="submission-item" wx:for="{{submissions}}" wx:key="id">
+  <view class="sub-title">{{item.title}}</view>
+  <view class="sub-preview">{{item.preview}}...</view>
+  <view class="sub-meta">{{item.displayTime}}｜{{item.status || '未读'}}</view>
+</view>
+    </block>
+    
+    <navigator url="/pages/submit/submit" class="back-link">返回投稿</navigator>
+  </view>
+</view>

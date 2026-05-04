@@ -1,0 +1,9 @@
+<view class="container">
+  <view class="box">
+    <text class="title">找回密码</text>
+    <text class="desc">输入注册邮箱，我们会发送重置链接。</text>
+    <input class="input" placeholder="邮箱" type="text" bindinput="inputEmail" />
+    <button class="btn" bindtap="doReset">发送重置邮件</button>
+    <navigator url="/pages/login/login" class="link">返回登录</navigator>
+  </view>
+</view>

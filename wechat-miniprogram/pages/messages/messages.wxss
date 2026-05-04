@@ -1,0 +1,166 @@
+.nav {
+  background: #fff;
+  padding: 18px 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.02);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px auto;
+  max-width: 900px;
+  width: 90%;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.nav-links navigator {
+  font-size: 16px;
+  color: #222;
+  text-decoration: none;
+  padding: 6px 8px;
+}
+.nav-links .active {
+  color: #007bff;
+  font-weight: 600;
+}
+.logout-btn {
+  background: #dc3545;
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  width: auto !important;
+}
+.nav .active {
+  color: #007bff;
+  font-weight: 600;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  width: 90%;
+}
+
+.message-form {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.02);
+}
+.form-title {
+  display: block;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+.form-textarea {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  font-size: 15px;
+  margin-bottom: 10px;
+  min-height: 100px;
+  box-sizing: border-box;
+  /* 补充textarea行高，避免文字拥挤 */
+  line-height: 1.5;
+}
+.form-input {
+  width: 100%;
+  /* 核心修复1：固定最小高度，解决被压扁问题，符合小程序交互规范 */
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  /* 核心修复2：统一字体+行高，保证文字垂直居中、显示完整 */
+  font-size: 15px;
+  line-height: 44px;
+}
+.form-btn {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  display: block;
+  margin: 0 auto;
+}
+.form-tip {
+  font-size: 12px;
+  color: #888;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.message-list {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.02);
+}
+.list-title {
+  display: block;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+.loading, .empty {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+}
+
+.message-item {
+  border-bottom: 1px solid #eee;
+  padding: 20px 0;
+}
+.message-item:last-child {
+  border-bottom: none;
+}
+.message-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.message-user {
+  font-weight: 600;
+  color: #007bff;
+  margin-right: 12px;
+}
+.message-time {
+  font-size: 12px;
+  color: #999;
+}
+.message-content {
+  margin: 12px 0;
+  line-height: 1.6;
+}
+.message-pic {
+  max-width: 100%;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.footer {
+  margin-top: 40px;
+  text-align: center;
+  padding: 20px;
+  font-size: 13px;
+  color: #666;
+}
+.footer text {
+  display: block;
+  margin: 4px 0;
+}

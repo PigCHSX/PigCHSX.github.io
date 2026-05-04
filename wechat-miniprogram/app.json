@@ -1,0 +1,21 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/main/main",
+    "pages/read/read",
+    "pages/login/login",
+    "pages/register/register",
+    "pages/forgot/forgot",
+    "pages/messages/messages",
+    "pages/submit/submit",
+    "pages/history/history"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTitleText": "水二杂记｜MOSE",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f8f9fc"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

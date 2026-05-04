@@ -1,0 +1,56 @@
+<view class="nav">
+  <navigator url="/pages/main/main">首页</navigator>
+  <navigator url="/pages/read/read" class="active">阅读</navigator>
+  <navigator url="/pages/login/login">投稿</navigator>
+  <navigator url="/pages/messages/messages">留言</navigator>
+</view>
+
+<view class="wrap">
+  <!-- 目录 -->
+  <view class="menu">
+    <text class="menu-title">📖 阅读目录</text>
+    <view class="menu-list">
+      <text class="menu-item" bindtap="changeBook" data-book="1">第一卷</text>
+      <text class="menu-item" bindtap="changeBook" data-book="2">第二卷</text>
+      <text class="menu-item" bindtap="changeBook" data-book="3">第三卷</text>
+      <text class="menu-item" bindtap="changeBook" data-book="4">第四卷</text>
+      <text class="menu-item" bindtap="changeBook" data-book="5">第五卷</text>
+      <text class="menu-item" bindtap="changeBook" data-book="6">半卷流年</text>
+    </view>
+  </view>
+
+  <!-- 图片展示区 -->
+  <view class="img-box">
+    <image src="{{imgSrc}}" class="pic" mode="widthFix" binderror="onImageError"></image>
+  </view>
+
+  <!-- 翻页控制 -->
+  <view class="page-controls">
+    <text class="page-btn" bindtap="goPrev">上一页</text>
+    <text class="page-num" bindtap="goPage" data-page="1">1</text>
+    <text class="page-num" bindtap="goPage" data-page="2">2</text>
+    <text class="page-num" bindtap="goPage" data-page="3">3</text>
+    <input class="page-input" type="number" value="{{pageInputValue}}" bindinput="onPageInput" placeholder="页码" />
+    <text class="page-btn jump-btn" bindtap="jumpToPage">跳转</text>
+    <text class="page-btn" bindtap="goNext">下一页</text>
+  </view>
+</view>
+
+<!-- 底部信息区 -->
+<view class="footer">
+  <view class="footer-line">读者联盟QQ频道：MOSE20230927</view>
+  <view class="footer-line">投稿人联盟QQ群：1054707527</view>
+  <view class="footer-line">官微：gh_1ece4d40dedf</view>
+  <view class="footer-line">邮箱：pigli@mose.cc.cd</view>
+  <view class="qrcodes">
+    <view class="qr-box">
+      <image src="/images/qrcode1.png" class="qr-img" mode="aspectFit"></image>
+    </view>
+    <view class="qr-box">
+      <image src="/images/qrcode2.png" class="qr-img" mode="aspectFit"></image>
+    </view>
+    <view class="qr-box">
+      <image src="/images/qrcode3.png" class="qr-img" mode="aspectFit"></image>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,48 @@
+<view class="nav">
+  <navigator url="/pages/main/main" class="active">首页</navigator>
+  <navigator url="/pages/read/read">阅读</navigator>
+  <navigator url="/pages/login/login">投稿</navigator>
+  <navigator url="/pages/messages/messages">留言</navigator>
+</view>
+
+<view class="container">
+  <view class="card">
+    <text class="card-title">《水二杂记》简介</text>
+    <text class="card-text">创刊于2023年9月27日，总编/主编：沧海四象。</text>
+    <text class="card-text people">主要投稿人：CREEPER、VIOLIN、男神、嘎吱怪、DANGER、JOE、丁氏、黑芝麻糖、HYY、Cherry</text>
+    <text class="card-text">诞生于前进王朝，是贯穿王朝历史的学牲刊物。</text>
+    <text class="card-text">2023-09-27 第一卷开篇</text>
+    <text class="card-text">2023-11-02 公众号「沧海四象」创建</text>
+    <text class="card-text">2024-02-26 第二卷开篇</text>
+    <text class="card-text">2024-09-19 第三卷开篇（开放投稿）</text>
+    <text class="card-text">2024-12-06 第四卷开篇</text>
+    <text class="card-text">2025-11-20 第五卷开篇</text>
+  </view>
+
+  <view class="card">
+    <text class="card-title">站内公告</text>
+    <text class="card-text highlight">• 水二杂记官网已上线</text>
+    <text class="card-text highlight">• 水二杂记小程序公测中</text>
+    <text class="card-text">BUG反馈：pigli@mose.cc.cd</text>
+    <text class="card-text">• 小程序的所有数据均与官网互通，无需重新注册账号</text>
+    <text class="card-text highlight">• 关于小程序投稿功能的说明：</text>
+    <text class="card-text">• 需要登录或注册使用，账号数据现已上升为云端存储，推荐使用QQ邮箱注册（垃圾箱也翻一翻），outlook等邮箱在初期邮件易被拦截，正在解决</text>
+    <text class="card-text">• 每次投稿需要重新登录以免出现安全隐患</text>
+    <text class="card-text">• 投稿时图片需要通过图床传输，具体见投稿页图片链接的说明</text>
+    <text class="card-text highlight">• 关于小程序阅读功能的说明：</text>
+    <text class="card-text">• 为给后期更改预留空间，每一卷预留了很多空白页（没放图片），当浏览到空白页时屏幕会提示弹窗“图片尚未上传，请稍后再试“，这个时候代表您已经浏览完本卷内容了，并非出现了bug</text>
+    <text class="card-text">• 所有的图片均从水二杂记官网上链接</text>
+  </view>
+</view>
+
+<view class="footer">
+  <text class="footer-text">读者联盟QQ频道：MOSE20230927</text>
+  <text class="footer-text">投稿人联盟QQ群：1054707527</text>
+  <text class="footer-text">官微：gh_1ece4d40dedf</text>
+  <text class="footer-text">邮箱：pigli@mose.cc.cd</text>
+  <view class="qrcodes">
+    <image src="/images/qrcode1.png" class="qr-img" mode="aspectFit"></image>
+    <image src="/images/qrcode2.png" class="qr-img" mode="aspectFit"></image>
+    <image src="/images/qrcode3.png" class="qr-img" mode="aspectFit"></image>
+  </view>
+</view>

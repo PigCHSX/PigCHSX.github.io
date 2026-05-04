@@ -1,0 +1,108 @@
+.nav {
+  background: #fff;
+  padding: 18px 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.02);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px auto;
+  max-width: 700px;
+  width: 90%;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.nav-links navigator {
+  font-size: 16px;
+  color: #222;
+  text-decoration: none;
+  padding: 6px 8px;
+}
+.logout-btn {
+  background: #dc3545;
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  width: auto !important;
+}
+
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px;
+  width: 90%;
+}
+.box {
+  background: #fff;
+  padding: 36px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+}
+.title {
+  display: block;
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  text-align: center;
+}
+.status {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  font-size: 14px;
+}
+.submission-item {
+  background: #fff;
+  padding: 20px;
+  border-radius: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+.sub-title {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.sub-preview {
+  color: #555;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+.sub-meta {
+  font-size: 12px;
+  color: #999;
+}
+.back-link {
+  display: block;
+  text-align: center;
+  color: #007bff;
+  margin-top: 20px;
+}
+.sub-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #999;
+}
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.status-badge.unread {
+  background: #fff3cd;
+  color: #856404;
+}
+.status-badge.read {
+  background: #d4edda;
+  color: #155724;
+}

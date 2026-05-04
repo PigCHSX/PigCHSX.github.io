@@ -1,0 +1,54 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 40px;
+}
+.box {
+  width: 100%;
+  max-width: 400px;
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+.title {
+  display: block;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+.input {
+  width: 100%;
+  /* 核心修复：盒模型+固定高度+垂直居中 */
+  box-sizing: border-box;
+  min-height: 44px;
+  padding: 0 12px;
+  line-height: 44px;
+  margin-bottom: 14px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+}
+.btn {
+  width: 100%;
+  padding: 12px;
+  background: #409eff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-top: 10px;
+}
+.link-group {
+  text-align: center;
+  margin-top: 15px;
+}
+.link {
+  display: block;
+  color: #409eff;
+  font-size: 14px;
+  margin: 8px 0;
+}

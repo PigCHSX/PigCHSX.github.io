@@ -1,0 +1,12 @@
+<view class="container">
+  <view class="box">
+    <text class="title">注册账号</text>
+    <input class="input" placeholder="设置用户名" bindinput="inputUsername" />
+    <input class="input" placeholder="邮箱" type="text" bindinput="inputEmail" />
+    <input class="input" placeholder="设置密码" type="password" bindinput="inputPassword" />
+    <button class="btn" bindtap="doRegister">完成注册</button>
+    <view class="links">
+      <text class="link" bindtap="goLogin">返回登录</text>
+    </view>
+  </view>
+</view>

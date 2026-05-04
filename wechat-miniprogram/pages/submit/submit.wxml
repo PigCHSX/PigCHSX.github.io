@@ -1,0 +1,48 @@
+<view class="nav">
+  <view class="nav-links">
+    <navigator url="/pages/main/main">首页</navigator>
+    <navigator url="/pages/read/read">阅读</navigator>
+    <navigator url="/pages/login/login">投稿</navigator>
+    <navigator url="/pages/messages/messages">留言</navigator>
+  </view>
+  <button class="logout-btn" bindtap="doLogout">退出登录</button>
+</view>
+
+<view class="container">
+  <view class="box">
+    <view class="user-info">当前登录：{{username}}</view>
+    <text class="title">📝 我要投稿</text>
+    
+    <input class="input" placeholder="请输入投稿标题" value="{{title}}" bindinput="onTitleInput" />
+    <textarea class="textarea" placeholder="请输入投稿内容（支持文字描述）" value="{{content}}" bindinput="onContentInput" />
+    
+    <button class="tips-btn" bindtap="showTips">查看图片链接上传要求</button>
+    <input class="input" placeholder="图片链接（请先上传至图床，粘贴直链）" value="{{picUrl}}" bindinput="onPicUrlInput" />
+
+    <button class="submit-btn" bindtap="send">提交投稿</button>
+    <view class="links">
+      <navigator url="/pages/history/history">查看我的投稿</navigator>
+      <navigator url="/pages/main/main">返回首页</navigator>
+    </view>
+  </view>
+</view>
+
+<view class="tips-modal" wx:if="{{showTipsModal}}">
+  <view class="tips-content">
+    <text class="tips-title">图片链接上传要求</text>
+    <text>1. 图片需为扫描件（JPG/PNG格式，清晰无水印）；</text>
+    <text>2. 上传至图床获取直链（推荐免费图床：</text>
+    <text>👉 路过图床:imgchr.com</text>
+    <text>👉 SM.MS:sm.ms</text>
+    <text>3. 复制图床生成的「直链/URL」粘贴到投稿框即可；</text>
+    <text>也可以纯文字或用邮件直接把稿子发到作者邮箱哦</text>
+    <button class="tips-close" bindtap="hideTips">返回</button>
+  </view>
+</view>
+
+<view class="footer">
+  <text>读者联盟QQ频道：MOSE20230927</text>
+  <text>投稿人联盟QQ群：1054707527</text>
+  <text>官微：gh_1ece4d40dedf</text>
+  <text>邮箱：pigli@mose.cc.cd</text>
+</view>

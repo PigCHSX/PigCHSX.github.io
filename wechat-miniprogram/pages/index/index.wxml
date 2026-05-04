@@ -1,0 +1,6 @@
+<view class="container {{ fadeOut ? 'fade-out' : '' }}">
+  <image src="/images/logo.png" class="logo" mode="aspectFit"></image>
+  <text class="title">{{ motto }}</text>
+  <text class="domain">mose.cc.cd</text>
+  <text class="desc">创刊于2023年9月27日</text>
+</view>
