@@ -73,7 +73,7 @@ async function sendEmail() {
     result.className = 'result';
 
     try {
-        const res = await fetch('https://api.resend.com/emails', {
+        const res = await fetch('https://send.mose.cc.cd', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${API_KEY}`,
