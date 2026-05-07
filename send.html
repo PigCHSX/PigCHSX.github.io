@@ -22,7 +22,7 @@ button:disabled{background:#999;cursor:not-allowed}
 <body>
 
 <div class="box">
-    <h2>📧 用专属域名发信</h2>
+    <h2>📧 用MOSE业务域名发信</h2>
 
     <!-- 新增：发件人身份选择 -->
     <select id="fromSelect" onchange="updateFromInfo()">
@@ -30,7 +30,7 @@ button:disabled{background:#999;cursor:not-allowed}
         <option value="pigli">沧海四象 &lt;pigli@mose.cc.cd&gt;</option>
     </select>
 
-    <input id="to" type="email" placeholder="收件人邮箱（如 12158168@qq.com）" required>
+    <input id="to" type="email" placeholder="收件人邮箱（如 abcd@example.com）" required>
     <input id="subject" placeholder="邮件主题" required>
     <textarea id="content" placeholder="邮件正文..." required></textarea>
     <button id="sendBtn" onclick="sendEmail()">发送邮件</button>
@@ -38,7 +38,7 @@ button:disabled{background:#999;cursor:not-allowed}
 </div>
 
 <div class="footer">
-    水二杂记｜MOSE · 专属域名发信工具
+    水二杂记｜MOSE · 业务域名发信工具（请勿外传网址）
 </div>
 
 <script>
